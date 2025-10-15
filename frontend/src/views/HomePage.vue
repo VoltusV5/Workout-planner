@@ -17,7 +17,9 @@
                     <p class="stat-item"></p>
                 </div>
                 <!-- Кнопка для создания тренировки -->
-                <button class="make_training">Составить тренировку</button>
+                <router-link to="/make_training">
+                    <button class="make_training">Составить тренировку</button>
+                </router-link>
             </div>
             <div class="photo_div-sport_woman">
                 <img src="../assets/main_page/sport_woman.png">
@@ -28,10 +30,10 @@
 
 <script>
 export default {
-  name: 'HomePage', // Название компонента
+    name: 'HomePage',
     data() {
     return {
-      workoutsCount: 159, // Значение для отображения, можно связать с backend
+        workoutsCount: 159,
     };
     },
 };
@@ -58,6 +60,7 @@ export default {
     
     margin: 20px auto;
     display: block;
+    text-decoration: none;
 }
 
 .stats-container {
@@ -85,7 +88,6 @@ export default {
     color: #fff;
     font-size: 60px;
     margin: 20px auto;
-    display: block;
 }
 
 .photo_div-sport_woman {
