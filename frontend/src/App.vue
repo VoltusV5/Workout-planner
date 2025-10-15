@@ -20,7 +20,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
   background-color: #2D2D2D;;
 }
 
@@ -37,7 +36,6 @@ body {
 
     .container {
         width: 90%; /* Устанавливаем ширину контейнера, чтобы он не выходил за экран */
-        margin: 0 auto;
     }
 
     .button {

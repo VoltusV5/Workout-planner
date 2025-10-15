@@ -44,11 +44,12 @@ export default {
     font-size: 120px;
     color: #fff;
     text-align: center;
+    margin: 10px;
 }
 
 .go_training {
-    width: 500px;
-    height: 500px;
+    width: 400px;
+    height: 400px;
     border-radius: 48px;
     background-color: #7C4DFF;
 
@@ -63,7 +64,6 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 20px auto;
 }
 
 .stat-item {
@@ -77,7 +77,7 @@ export default {
 }
 
 .make_training {
-    width: 1000px;
+    width: 800px;
     height: 200px;
     border-radius: 48px;
     background-color: #404040;
@@ -89,13 +89,11 @@ export default {
 }
 
 .photo_div-sport_woman {
-    width: 1340px;
     height: 894px;
 
 }
 
 .photo_div-sport_man {
-    width: 1631px;
     height: 917px;
 }
 
