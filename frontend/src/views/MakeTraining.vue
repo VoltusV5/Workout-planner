@@ -12,24 +12,45 @@
                 <AddButton @click="showModal" />
             </div>
             
-            <div class="ExerciseCards_Container">
-                <draggable v-if="catalogExercises && catalogExercises.length > 0" v-model="catalogExercises" group="exercises" @start="drag=true" @end="drag=false">
-                    <template v-slot:default="{ element }">
-                        <ExerciseCard :key="element.id" :exercise="element" />
-                    </template>
-                </draggable>
+            <draggable 
+                v-show="catalogExercises.length >= 0" 
+                v-model="catalogExercises" 
+                group="exercises" 
+                @start="drag=true" 
+                @end="drag=false"
+                class="ExerciseCards_Container"
+            >
+                <template v-if="catalogExercises.length === 0" #header >
+                    <h1 class="Container_empty_alertInfo_catalogExercises">
+                        Перетащите сюда упражнения
+                    </h1>
+                </template>
+                <template v-slot:item="{ element }">
+                    <ExerciseCard :key="element.id" :exercise="element" />
+                </template>
+            </draggable>
                 
-            </div>
+            
         </div>
         <div class="Your_Training">
             <p>Тренировка №1</p>
-            <div class="Your_Training-ExerciseCards_Container">
-                <draggable v-if="trainingExercises && trainingExercises.length > 0" v-model="trainingExercises" group="exercises" @start="drag=true" @end="drag=false">
-                    <template v-slot:default="{ element }">
+                <draggable 
+                    v-show="trainingExercises.length >= 0" 
+                    v-model="trainingExercises" 
+                    group="exercises" 
+                    @start="drag=true" 
+                    @end="drag=false"
+                    class="Your_Training-ExerciseCards_Container"
+                >
+                    <template v-if="trainingExercises.length === 0" #header >
+                        <h1 class="Container_empty_alertInfo_ExerciseCards_Container">
+                            Перетащите сюда упражнения
+                        </h1>
+                    </template>                    
+                    <template v-slot:item="{ element }">
                         <ExerciseCard :key="element.id" :exercise="element" />
                     </template>
                 </draggable>
-            </div>
         </div>
     
         <AddExercise v-if="isModalVisible" @close="hideModal" />
@@ -65,59 +86,66 @@ export default {
                     name: 'Push Up', 
                     time: 40, 
                     reps: 15, 
-                    image: '../assets/make_training/image_card.png'
-                },
+                    image: require('@/assets/make_training/image_card.png')
+                }
+            ],
+            trainingExercises: [
                 { 
                     id: 2, 
                     name: 'Push Up', 
                     time: 40, 
                     reps: 15, 
-                    image: '../assets/make_training/image_card.png'
+                    image: require('@/assets/make_training/image_card.png')
                 },
                 { 
                     id: 3, 
                     name: 'Push Up', 
                     time: 40, 
                     reps: 15, 
-                    image: '../assets/make_training/image_card.png'
+                    image: require('@/assets/make_training/image_card.png')
                 },
                 { 
                     id: 4, 
                     name: 'Push Up', 
                     time: 40, 
                     reps: 15, 
-                    image: '../assets/make_training/image_card.png'
+                    image: require('@/assets/make_training/image_card.png')
                 },
                 { 
                     id: 5, 
                     name: 'Push Up', 
                     time: 40, 
                     reps: 15, 
-                    image: '../assets/make_training/image_card.png'
+                    image: require('@/assets/make_training/image_card.png')
                 },
                 { 
                     id: 6, 
                     name: 'Push Up', 
                     time: 40, 
                     reps: 15, 
-                    image: '../assets/make_training/image_card.png'
+                    image: require('@/assets/make_training/image_card.png')
                 },
                 { 
                     id: 7, 
                     name: 'Push Up', 
                     time: 40, 
                     reps: 15, 
-                    image: '../assets/make_training/image_card.png'
+                    image: require('@/assets/make_training/image_card.png')
                 },
                 { 
                     id: 8, 
                     name: 'Push Up', 
                     time: 40, 
                     reps: 15, 
-                    image: '../assets/make_training/image_card.png'
-                }
-            ],
-            trainingExercises: [
+                    image: require('@/assets/make_training/image_card.png')
+                },
+                { 
+                    id: 9, 
+                    name: 'Push Up', 
+                    time: 40, 
+                    reps: 15, 
+                    image: require('@/assets/make_training/image_card.png')
+                },
             ],
             drag: false,
         };
@@ -192,6 +220,7 @@ export default {
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(2, 1fr);
     gap: 20px;
+    overflow-y: auto;
 }
 
 
@@ -214,11 +243,38 @@ export default {
 }
 
 .Your_Training-ExerciseCards_Container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
     overflow-y: auto;
+    width: 100%;
+    min-width: 120px;
+    min-height: 720px;
 }
+
+.Container_empty_alertInfo_ExerciseCards_Container,
+.Container_empty_alertInfo_catalogExercises {
+    color: red;
+    padding: 20px;
+    font-size: 24px;
+    border: 1px solid #ccc;
+}
+
+.Container_empty_alertInfo_catalogExercises {
+    border-bottom: 500px solid transparent;
+    border-right: 1000px solid transparent;
+}
+
+.Container_empty_alertInfo_ExerciseCards_Container {
+    border-bottom: 600px solid transparent;
+}
+
+
 
 .ExerciseCard {
     margin-bottom: 20px;
 }
+
 
 </style>
