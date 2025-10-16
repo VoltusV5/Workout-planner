@@ -1,0 +1,79 @@
+[33mcommit 069693cd97ac56b4c8cd799000eec2bea622f118[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Merge: 828da7e5 4860f937
+Author: VoltusV5 <maxt.spb@gmail.com>
+Date:   Wed Oct 15 19:51:27 2025 +0300
+
+    Merge branch 'main' of https://github.com/VoltusV5/Workout-planner
+
+[33mcommit 828da7e5916be00c431693ecbfeec9e42935cb7d[m
+Author: VoltusV5 <maxt.spb@gmail.com>
+Date:   Wed Oct 15 19:42:32 2025 +0300
+
+    сделал черновые страницы 1 и 2
+
+[33mcommit d50fe44b1586ddf745a23d7385fb594249e51c01[m
+Author: VoltusV5 <maxt.spb@gmail.com>
+Date:   Wed Oct 15 15:21:30 2025 +0300
+
+    доделал страницу 1 для 1920x1080
+
+[33mcommit 4860f937d37b665c60c31d35452bc4cc1fca53f8[m[33m ([m[1;31morigin/main[m[33m)[m
+Author: VoltusV <maxt.spb@gmail.com>
+Date:   Wed Oct 15 15:09:13 2025 +0300
+
+    пытаюсь настроить разрешение
+
+[33mcommit bfc3b413aac362f66364ff65fa722e20c6b53988[m
+Author: VoltusV <maxt.spb@gmail.com>
+Date:   Wed Oct 15 12:34:56 2025 +0300
+
+    Подправил gitignore
+
+[33mcommit 2530c66d758d0c95e3cdc439b5e5ddd09c2cba06[m
+Author: VoltusV5 <maxt.spb@gmail.com>
+Date:   Sat Oct 11 18:58:46 2025 +0300
+
+    frontend: черновой вариант main_page
+
+[33mcommit ff3db0a81ae3db24cb73409136c3d6b72ce0191b[m
+Author: VoltusV5 <maxt.spb@gmail.com>
+Date:   Sat Oct 11 17:19:51 2025 +0300
+
+    frontend: update files
+
+[33mcommit cd92b1609cc218b1f5592935ad2121e3b43ff739[m
+Author: VoltusV5 <maxt.spb@gmail.com>
+Date:   Sat Oct 11 16:48:31 2025 +0300
+
+    frontend: update frontend files
+
+[33mcommit 82f9a11a7b329275a2553a4ce42f25aecd521125[m
+Author: VoltusV5 <maxt.spb@gmail.com>
+Date:   Sat Oct 11 16:34:20 2025 +0300
+
+    frontend: create Vue
+
+[33mcommit cceef255aba567cfc60c2783d1c0ddf867f9102c[m
+Merge: f7dc4b06 6b3ffdf4
+Author: VoltusV5 <maxt.spb@gmail.com>
+Date:   Sat Oct 11 16:19:01 2025 +0300
+
+    docs: add license
+
+[33mcommit f7dc4b06ab6a85d68f1232452b4689a14edab95c[m
+Author: VoltusV5 <maxt.spb@gmail.com>
+Date:   Sat Oct 11 16:14:31 2025 +0300
+
+    docs: wrote README.md
+
+[33mcommit 6b3ffdf4c077d827fd530df99408163268a7f1a0[m
+Author: VoltusV <137219413+VoltusV5@users.noreply.github.com>
+Date:   Sat Oct 11 16:13:55 2025 +0300
+
+    Initial commit
+
+[33mcommit fd985f289297740d85d62d4df6707270950dd912[m
+Author: VoltusV5 <maxt.spb@gmail.com>
+Date:   Sat Oct 11 15:59:48 2025 +0300
+
+    first commit

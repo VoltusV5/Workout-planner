@@ -1,12 +1,12 @@
 
 <template>
-  <div class="ExerciseCard">
-    <!-- Основная разметка компонента -->
-        <h3>Классический пресс</h3>
-        <img class="ExerciseCard_image" src="../assets/make_training/image_card.png">
-        <h5>40 сек</h5>
-        <h6>x15 на каждую сторону</h6>
-  </div>
+    <div class="ExerciseCard">
+        <!-- Основная разметка компонента -->
+            <h3>{{ exercise.name }}</h3>
+            <img class="ExerciseCard_image" :src="exercise.image" alt="Exercise Image">
+            <h5>{{ exercise.time }} сек</h5>
+            <h6>x{{ exercise.reps }} на каждую сторону</h6>
+    </div>
 </template>
 
 
@@ -14,19 +14,22 @@
 export default {
   name: 'ExerciseCard', // Название компонента
 
-  props: {
-    // Пропсы, которые передаются в компонент
-  },
+    props: {
+        exercise: {
+            type: Object,
+            required: true,
+        }
+    },
 
-  data() {
-    return {
-      // Локальное состояние компонента
-    };
-  },
+    data() {
+        return {
+        // Локальное состояние компонента
+        };
+    },
 
-  methods: {
-    // Методы компонента
-  },
+    methods: {
+        // Методы компонента
+    },
 };
 </script>
 

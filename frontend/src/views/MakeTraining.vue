@@ -13,22 +13,22 @@
             </div>
             
             <div class="ExerciseCards_Container">
-                <ExerciseCard />
-                <ExerciseCard />
-                <ExerciseCard />
-                <ExerciseCard />
-                <ExerciseCard />
-                <ExerciseCard />
-                <ExerciseCard />
-                <ExerciseCard />
+                <draggable v-if="catalogExercises && catalogExercises.length > 0" v-model="catalogExercises" group="exercises" @start="drag=true" @end="drag=false">
+                    <template v-slot:default="{ element }">
+                        <ExerciseCard :key="element.id" :exercise="element" />
+                    </template>
+                </draggable>
+                
             </div>
         </div>
         <div class="Your_Training">
             <p>Тренировка №1</p>
             <div class="Your_Training-ExerciseCards_Container">
-                <ExerciseCard />
-                <ExerciseCard />
-                <ExerciseCard />
+                <draggable v-if="trainingExercises && trainingExercises.length > 0" v-model="trainingExercises" group="exercises" @start="drag=true" @end="drag=false">
+                    <template v-slot:default="{ element }">
+                        <ExerciseCard :key="element.id" :exercise="element" />
+                    </template>
+                </draggable>
             </div>
         </div>
     
@@ -43,6 +43,7 @@ import SaveButton from '../components/SaveButton.vue'
 import ExerciseCard from '../components/ExerciseCard.vue'
 import AddButton from '../components/AddButton.vue'
 import AddExercise from '../components/AddExercise.vue'
+import draggable from 'vuedraggable';
 
 export default {
   name: 'MakeTraining',  // переименовано в многословное имя
@@ -51,15 +52,85 @@ export default {
         SaveButton,
         ExerciseCard,
         AddButton,
-        AddExercise
+        AddExercise,
+        draggable
     },
 
     data() {
         return {
-            isModalVisible: false
+            isModalVisible: false,
+            catalogExercises: [
+                { 
+                    id: 1, 
+                    name: 'Push Up', 
+                    time: 40, 
+                    reps: 15, 
+                    image: '../assets/make_training/image_card.png'
+                },
+                { 
+                    id: 2, 
+                    name: 'Push Up', 
+                    time: 40, 
+                    reps: 15, 
+                    image: '../assets/make_training/image_card.png'
+                },
+                { 
+                    id: 3, 
+                    name: 'Push Up', 
+                    time: 40, 
+                    reps: 15, 
+                    image: '../assets/make_training/image_card.png'
+                },
+                { 
+                    id: 4, 
+                    name: 'Push Up', 
+                    time: 40, 
+                    reps: 15, 
+                    image: '../assets/make_training/image_card.png'
+                },
+                { 
+                    id: 5, 
+                    name: 'Push Up', 
+                    time: 40, 
+                    reps: 15, 
+                    image: '../assets/make_training/image_card.png'
+                },
+                { 
+                    id: 6, 
+                    name: 'Push Up', 
+                    time: 40, 
+                    reps: 15, 
+                    image: '../assets/make_training/image_card.png'
+                },
+                { 
+                    id: 7, 
+                    name: 'Push Up', 
+                    time: 40, 
+                    reps: 15, 
+                    image: '../assets/make_training/image_card.png'
+                },
+                { 
+                    id: 8, 
+                    name: 'Push Up', 
+                    time: 40, 
+                    reps: 15, 
+                    image: '../assets/make_training/image_card.png'
+                }
+            ],
+            trainingExercises: [
+            ],
+            drag: false,
         };
     },
-
+    mounted() {
+        // Проверьте, что данные существуют в момент рендера
+        console.log('Mounted method is called');
+        console.log('Catalog Exercises:', this.catalogExercises);
+        console.log('Training Exercises:', this.trainingExercises);
+        this.catalogExercises.forEach(exercise => {
+            console.log(exercise);
+        });
+    },
     methods: {
         showModal() {
             console.log('Modal should appear');
