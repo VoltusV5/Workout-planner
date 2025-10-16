@@ -6,160 +6,83 @@
             <h1>Создание тренировки</h1>
             <SaveButton />
         </div>
-        <div class="CatalogExercises">
-            <div class="CatalogExercises_header">
-                <p>Каталог упражнений</p>
-                <AddButton @click="showModal" />
-            </div>
-            
-            <draggable 
-                v-show="catalogExercises.length >= 0" 
-                v-model="catalogExercises" 
-                group="exercises" 
-                @start="drag=true" 
-                @end="drag=false"
-                class="ExerciseCards_Container"
-            >
-                <template v-if="catalogExercises.length === 0" #header >
-                    <h1 class="Container_empty_alertInfo_catalogExercises">
-                        Перетащите сюда упражнения
-                    </h1>
-                </template>
-                <template v-slot:item="{ element }">
-                    <ExerciseCard :key="element.id" :exercise="element" />
-                </template>
-            </draggable>
-                
-            
-        </div>
-        <div class="Your_Training">
-            <p>Тренировка №1</p>
-                <draggable 
-                    v-show="trainingExercises.length >= 0" 
-                    v-model="trainingExercises" 
-                    group="exercises" 
-                    @start="drag=true" 
-                    @end="drag=false"
-                    class="Your_Training-ExerciseCards_Container"
-                >
-                    <template v-if="trainingExercises.length === 0" #header >
-                        <h1 class="Container_empty_alertInfo_ExerciseCards_Container">
-                            Перетащите сюда упражнения
-                        </h1>
-                    </template>                    
-                    <template v-slot:item="{ element }">
-                        <ExerciseCard :key="element.id" :exercise="element" />
-                    </template>
-                </draggable>
-        </div>
-    
-        <AddExercise v-if="isModalVisible" @close="hideModal" />
+        
+        <CatalogExercises 
+            :catalogExercises="catalogExercises" 
+            @update:catalogExercises="updateCatalogExercises"
+            @update:drag="updateDrag"
+            :showModal="showModal" 
+            :drag="drag" 
+        />
+
+
+
+        <YourTraining 
+            :YourTraining="trainingExercises" 
+            @update:YourTraining="updateYourTraining"
+            @update:drag="updateDrag"
+            :showModal="showModal" 
+            :drag="drag" 
+        />
+
+
+        <AddExercise 
+            v-if="isModalVisible" 
+            @close="hideModal" 
+        />
 
     </div>
 </template>
 
 <script>
+
+import { trainingExercises } from '@/assets/data/trainingExercises'
+import { catalogExercises } from '@/assets/data/catalogExercises'
+
+console.log(trainingExercises); // Добавьте этот лог, чтобы проверить, что данные приходят
+console.log(catalogExercises); // Проверка второго массива
+
 import ArrowBack from '../components/ArrowBack.vue'
 import SaveButton from '../components/SaveButton.vue'
-import ExerciseCard from '../components/ExerciseCard.vue'
-import AddButton from '../components/AddButton.vue'
 import AddExercise from '../components/AddExercise.vue'
-import draggable from 'vuedraggable';
+import CatalogExercises from '../components/CatalogExercises.vue'
+import YourTraining from '../components/YourTraining.vue'
 
 export default {
   name: 'MakeTraining',  // переименовано в многословное имя
     components: {
         ArrowBack,
         SaveButton,
-        ExerciseCard,
-        AddButton,
         AddExercise,
-        draggable
+        CatalogExercises,
+        YourTraining
     },
 
+    
     data() {
         return {
+            trainingExercises: Array.isArray(trainingExercises) ? trainingExercises : [],
+            catalogExercises: Array.isArray(catalogExercises) ? catalogExercises : [],
             isModalVisible: false,
-            catalogExercises: [
-                { 
-                    id: 1, 
-                    name: 'Push Up', 
-                    time: 40, 
-                    reps: 15, 
-                    image: require('@/assets/make_training/image_card.png')
-                }
-            ],
-            trainingExercises: [
-                { 
-                    id: 2, 
-                    name: 'Push Up', 
-                    time: 40, 
-                    reps: 15, 
-                    image: require('@/assets/make_training/image_card.png')
-                },
-                { 
-                    id: 3, 
-                    name: 'Push Up', 
-                    time: 40, 
-                    reps: 15, 
-                    image: require('@/assets/make_training/image_card.png')
-                },
-                { 
-                    id: 4, 
-                    name: 'Push Up', 
-                    time: 40, 
-                    reps: 15, 
-                    image: require('@/assets/make_training/image_card.png')
-                },
-                { 
-                    id: 5, 
-                    name: 'Push Up', 
-                    time: 40, 
-                    reps: 15, 
-                    image: require('@/assets/make_training/image_card.png')
-                },
-                { 
-                    id: 6, 
-                    name: 'Push Up', 
-                    time: 40, 
-                    reps: 15, 
-                    image: require('@/assets/make_training/image_card.png')
-                },
-                { 
-                    id: 7, 
-                    name: 'Push Up', 
-                    time: 40, 
-                    reps: 15, 
-                    image: require('@/assets/make_training/image_card.png')
-                },
-                { 
-                    id: 8, 
-                    name: 'Push Up', 
-                    time: 40, 
-                    reps: 15, 
-                    image: require('@/assets/make_training/image_card.png')
-                },
-                { 
-                    id: 9, 
-                    name: 'Push Up', 
-                    time: 40, 
-                    reps: 15, 
-                    image: require('@/assets/make_training/image_card.png')
-                },
-            ],
+            
             drag: false,
         };
-    },
-    mounted() {
-        // Проверьте, что данные существуют в момент рендера
-        console.log('Mounted method is called');
-        console.log('Catalog Exercises:', this.catalogExercises);
-        console.log('Training Exercises:', this.trainingExercises);
-        this.catalogExercises.forEach(exercise => {
-            console.log(exercise);
-        });
+    
     },
     methods: {
+
+        updateDrag(newDragStatus) {
+            this.drag = newDragStatus;
+        },
+
+        updateCatalogExercises(newCatalogExercises) {
+            this.catalogExercises = newCatalogExercises;
+        },
+
+        updateYourTraining(newYourTraining) {
+            this.trainingExercises = newYourTraining;
+        },
+
         showModal() {
             console.log('Modal should appear');
             this.isModalVisible = true;
@@ -169,9 +92,14 @@ export default {
             console.log('Modal hidden'); 
             this.isModalVisible = false;
         }
+        
+        
     }
 };
 </script>
+
+
+
 
 <style scoped>
 .header_training_page {
@@ -186,95 +114,5 @@ export default {
     color: #fff;
     margin: 0px;
 }
-
-.CatalogExercises {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 1250px;
-    height: 819px;
-    float: right;
-    margin-right: 20px;
-    background-color: #404040;
-    border-radius: 48px;
-}
-
-.CatalogExercises_header {
-    display: flex;
-    justify-content: space-between;
-    text-align: center;
-    margin: 0px 40px 60px 40px;
-}
-
-.CatalogExercises_header p {
-    font-size: 90px;
-    color: #fff;
-    margin: 0;
-    margin-right: 70px;
-}
-
-.ExerciseCards_Container {
-    margin: 0px 10px 10px 10px;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    gap: 20px;
-    overflow-y: auto;
-}
-
-
-.Your_Training {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 412px;
-    height: 819px;
-    margin-left: 20px;
-    background-color: #7C4DFF;
-    border-radius: 48px;
-}
-
-.Your_Training p {
-    font-size: 50px;
-    color: white;
-    margin: 20px 20px 20px 20px;
-}
-
-.Your_Training-ExerciseCards_Container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: flex-start;
-    overflow-y: auto;
-    width: 100%;
-    min-width: 120px;
-    min-height: 720px;
-}
-
-.Container_empty_alertInfo_ExerciseCards_Container,
-.Container_empty_alertInfo_catalogExercises {
-    color: red;
-    padding: 20px;
-    font-size: 24px;
-    border: 1px solid #ccc;
-}
-
-.Container_empty_alertInfo_catalogExercises {
-    border-bottom: 500px solid transparent;
-    border-right: 1000px solid transparent;
-}
-
-.Container_empty_alertInfo_ExerciseCards_Container {
-    border-bottom: 600px solid transparent;
-}
-
-
-
-.ExerciseCard {
-    margin-bottom: 20px;
-}
-
 
 </style>
