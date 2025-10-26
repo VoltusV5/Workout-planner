@@ -44,6 +44,7 @@ export default {
         catalogExercises: {
                 type: Array,
                 required: true,
+                default: () => [],
             },
             showModal: {
                 type: Function,

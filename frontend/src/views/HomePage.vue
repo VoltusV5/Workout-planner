@@ -8,7 +8,9 @@
             </div>
             <div class="main_div-buttons">
                 <!-- Кнопка для начала тренировки -->
-                <button class="go_training">Заниматься</button>
+                <router-link to="/choose_training" class="no-underline">
+                    <button class="go_training">Заниматься</button>
+                </router-link>
 
                 <!-- Статистика -->
                 <div class="stats-container">
@@ -17,7 +19,7 @@
                     <p class="stat-item"></p>
                 </div>
                 <!-- Кнопка для создания тренировки -->
-                <router-link to="/make_training">
+                <router-link to="/make_training" class="no-underline">
                     <button class="make_training">Составить тренировку</button>
                 </router-link>
             </div>
@@ -49,6 +51,10 @@ export default {
     margin: 10px;
 }
 
+.main_div-buttons {
+    text-decoration: none;
+}
+
 .go_training {
     width: 400px;
     height: 400px;
@@ -60,8 +66,12 @@ export default {
     
     margin: 20px auto;
     display: block;
+}
+
+.no-underline {
     text-decoration: none;
 }
+
 
 .stats-container {
     display: flex;

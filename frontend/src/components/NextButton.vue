@@ -2,7 +2,7 @@
 <template>
   <div class="SaveButton">
     <!-- Основная разметка компонента -->
-        <button>Сохранить</button>
+        <button><img src="../assets/make_training/Arrow.png" class="mirrored" /></button>
   </div>
 </template>
 
@@ -32,10 +32,14 @@ export default {
 button {
     background-color: #7C4DFF;
     color: #fff;
-    width: 425px;
-    height: 153px;
+    width: 300px;
+    height: 100px;
     border-radius: 48px;
     font-size: 60px;
+}
+
+.mirrored {
+  transform: scaleX(-1);  /* Отзеркаливает изображение по горизонтали */
 }
 
 </style>

@@ -30,6 +30,8 @@ export default {
         handleClick() {
             if (this.action === 'goHome') {
                 this.$router.push('/');
+            } else if (this.action === 'goChooseTraining') {
+                this.$router.push('/choose_training');
             } else {
                 this.$emit('close');
             }

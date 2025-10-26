@@ -1,72 +1,64 @@
-
 <template>
     <div class="Your_Training">
         <p>Тренировка №1</p>
-        <draggable 
-            v-show="true" 
-            :list="trainingExercises"
-            group="exercises" 
-            @start="$emit('start-drag')"
-            @end="$emit('end-drag')"
-            class="Your_Training-ExerciseCards_Container"
-            @update:list="updateYourTraining"
+        <draggable
+        v-show="true"
+        :list="YourTraining"
+        group="exercises"
+        @start="startDrag"
+        @end="endDrag"
+        class="Your_Training-ExerciseCards_Container"
+        @update:list="updateYourTraining"
         >
-            <template v-if="trainingExercises.length === 0" #header >
-                <h1 class="Container_empty_alertInfo_ExerciseCards_Container">
-                    Перетащите сюда упражнения
-                </h1>
-            </template>                    
-            <template v-slot:item="{ element }">
-                <ExerciseCard :key="element.id" :exercise="element" />
-            </template>
+        <template v-if="!YourTraining || YourTraining.length === 0" #header>
+            <h1 class="Container_empty_alertInfo_ExerciseCards_Container">
+            Перетащите сюда упражнения
+            </h1>
+        </template>
+        <template v-slot:item="{ element }">
+            <ExerciseCard :key="element.id" :exercise="element" />
+        </template>
         </draggable>
     </div>
 </template>
 
-
 <script>
-
-import ExerciseCard from '../components/ExerciseCard.vue'
+import ExerciseCard from '../components/ExerciseCard.vue';
 import draggable from 'vuedraggable';
 
 export default {
-  name: 'YourTraining', // Название компонента
+    name: 'YourTraining',
     components: {
         ExerciseCard,
-        draggable
+        draggable,
     },
-
-
     props: {
         YourTraining: {
-                type: Array,
-                required: true,
-            },
-            showModal: {
-                type: Function,
-                required: true,
-            },
-            drag: {
-                type: Boolean,
-                required: true,
-            },
+        type: Array,
+        required: true,
+        default: () => [],
         },
+        showModal: {
+        type: Function,
+        required: true,
+        },
+        drag: {
+        type: Boolean,
+        required: true,
+        },
+    },
     methods: {
         startDrag() {
-            this.$emit('update:drag', true);
+        this.$emit('update:drag', true);
         },
-
         endDrag() {
-            this.$emit('update:drag', false);
+        this.$emit('update:drag', false);
         },
-
-
         updateYourTraining(newYourTraining) {
-            this.$emit('update:YourTraining', newYourTraining)
-            },
-        }
-    };
-
+        this.$emit('update:YourTraining', newYourTraining);
+        },
+    },
+};
 </script>
 
 <style scoped>
