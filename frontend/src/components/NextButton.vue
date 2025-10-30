@@ -1,7 +1,6 @@
 
 <template>
   <div class="SaveButton">
-    <!-- Основная разметка компонента -->
         <button><img src="../assets/make_training/Arrow.png" class="mirrored" /></button>
   </div>
 </template>
@@ -9,20 +8,17 @@
 
 <script>
 export default {
-  name: 'SaveButton', // Название компонента
+  name: 'SaveButton',
 
   props: {
-    // Пропсы, которые передаются в компонент
   },
 
   data() {
     return {
-      // Локальное состояние компонента
     };
   },
 
   methods: {
-    // Методы компонента
   },
 };
 </script>
@@ -39,7 +35,7 @@ button {
 }
 
 .mirrored {
-  transform: scaleX(-1);  /* Отзеркаливает изображение по горизонтали */
+  transform: scaleX(-1);
 }
 
 </style>

@@ -1,28 +1,24 @@
 
 <template>
   <div class="AddButton">
-    <!-- Основная разметка компонента -->
-     <button>✓</button>
+      <button>✓</button>
   </div>
 </template>
 
 
 <script>
 export default {
-  name: 'AddButton', // Название компонента
+  name: 'AddButton',
 
   props: {
-    // Пропсы, которые передаются в компонент
   },
 
   data() {
     return {
-      // Локальное состояние компонента
     };
   },
 
   methods: {
-    // Методы компонента
   },
 };
 </script>

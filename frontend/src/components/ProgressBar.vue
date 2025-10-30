@@ -21,7 +21,7 @@
 
 <script>
 export default {
-  name: 'ProgressBar',  // переименовано в многословное имя
+    name: 'ProgressBar',
 };
 </script>
 

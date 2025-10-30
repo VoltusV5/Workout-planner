@@ -34,7 +34,7 @@ import ExerciseCard from '../components/ExerciseCard.vue'
 import draggable from 'vuedraggable';
 
 export default {
-  name: 'CatalogExercises', // Название компонента
+  name: 'CatalogExercises',
     components: {
         AddButton,
         ExerciseCard,

@@ -7,10 +7,9 @@
 
 <script>
 export default {
-  name: 'WorkoutPage',  // переименовано в многословное имя
+  name: 'WorkoutPage', 
 };
 </script>
 
 <style scoped>
-/* Добавь стили, если нужно */
 </style>

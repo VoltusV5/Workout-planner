@@ -39,9 +39,6 @@
 import { trainingExercises } from '@/assets/data/trainingExercises'
 import { catalogExercises } from '@/assets/data/catalogExercises'
 
-console.log(trainingExercises); // Добавьте этот лог, чтобы проверить, что данные приходят
-console.log(catalogExercises); // Проверка второго массива
-
 import ArrowBack from '../components/ArrowBack.vue'
 import SaveButton from '../components/SaveButton.vue'
 import AddExercise from '../components/AddExercise.vue'
@@ -49,7 +46,7 @@ import CatalogExercises from '../components/CatalogExercises.vue'
 import YourTraining from '../components/YourTraining.vue'
 
 export default {
-  name: 'MakeTraining',  // переименовано в многословное имя
+    name: 'MakeTraining', 
     components: {
         ArrowBack,
         SaveButton,

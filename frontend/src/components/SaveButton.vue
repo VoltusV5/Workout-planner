@@ -1,7 +1,6 @@
 
 <template>
   <div class="SaveButton">
-    <!-- Основная разметка компонента -->
         <button>Сохранить</button>
   </div>
 </template>
@@ -9,20 +8,17 @@
 
 <script>
 export default {
-  name: 'SaveButton', // Название компонента
+  name: 'SaveButton', 
 
   props: {
-    // Пропсы, которые передаются в компонент
   },
 
   data() {
     return {
-      // Локальное состояние компонента
     };
   },
 
   methods: {
-    // Методы компонента
   },
 };
 </script>

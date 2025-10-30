@@ -25,7 +25,7 @@ import ProgressBar from '../components/ProgressBar.vue'
 import ArrowBack from '../components/ArrowBack.vue'
 
 export default {
-  name: 'DoingExercises',  // переименовано в многословное имя
+    name: 'DoingExercises', 
     components: {
         ProgressBar,
         ArrowBack,

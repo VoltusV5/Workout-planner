@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # Модель для упражнений
-
 class Exercise(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
@@ -22,6 +21,8 @@ class Workout(models.Model):
     def __str__(self):
         return self.name
     
+
+# Модель для порядка упражнений в тренировке
 class WorkoutExercise(models.Model):
     workout = models.ForeignKey(Workout, on_delete=models.CASCADE)
     exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)

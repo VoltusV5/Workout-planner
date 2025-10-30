@@ -1,7 +1,6 @@
 
 <template>
     <div class="ExerciseCard">
-        <!-- Основная разметка компонента -->
             <h3>{{ exercise.name }}</h3>
             <img class="ExerciseCard_image" :src="exercise.image" alt="Exercise Image">
             <h5>{{ exercise.time }} сек</h5>
@@ -12,7 +11,7 @@
 
 <script>
 export default {
-  name: 'ExerciseCard', // Название компонента
+    name: 'ExerciseCard', 
 
     props: {
         exercise: {
@@ -23,12 +22,10 @@ export default {
 
     data() {
         return {
-        // Локальное состояние компонента
         };
     },
 
     methods: {
-        // Методы компонента
     },
 };
 </script>

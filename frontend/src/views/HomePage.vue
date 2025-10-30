@@ -1,7 +1,10 @@
 <template>
     <div>
         <h1 class="main_page_header">Workout Planner</h1>
-
+        <!-- кнопка выхода -->
+        <div class="logout-container">
+            <button @click="logout" class="logout-btn">Выйти</button>
+        </div>
         <main class="main_page_container">
             <div class="photo_div-sport_man">
                 <img src="../assets/main_page/sport_man.png">
@@ -31,15 +34,22 @@
 </template>
 
 <script>
+import AuthService from '@/services/AuthService'
+
 export default {
     name: 'HomePage',
     data() {
-    return {
+        return {
         workoutsCount: 159,
-    };
+        }
     },
-};
-
+    methods: {
+        logout() {
+            AuthService.logout()
+            this.$router.push('/login')
+        }
+    }
+}
 </script>
 
 <style scoped>
@@ -113,6 +123,28 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+
+
+
+.logout-container {
+    text-align: right;
+    padding: 10px 20px;
+}
+
+.logout-btn {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.logout-btn:hover {
+    background-color: #d32f2f;
 }
 
 </style>

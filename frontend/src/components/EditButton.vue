@@ -1,7 +1,6 @@
 
 <template>
     <div class="EditButton">
-        <!-- Основная разметка компонента -->
             <button>Редактировать</button>
     </div>
 </template>
@@ -9,20 +8,17 @@
 
 <script>
 export default {
-  name: 'EditButton', // Название компонента
+    name: 'EditButton',
 
     props: {
-        // Пропсы, которые передаются в компонент
     },
 
     data() {
         return {
-        // Локальное состояние компонента
         };
     },
 
     methods: {
-        // Методы компонента
     },
 };
 </script>

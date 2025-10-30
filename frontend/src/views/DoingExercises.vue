@@ -34,7 +34,7 @@ import ArrowBack from '../components/ArrowBack.vue'
 import NextButton from '@/components/NextButton.vue';
 
 export default {
-  name: 'DoingExercises',  // переименовано в многословное имя
+  name: 'DoingExercises', 
     components: {
         ProgressBar,
         ArrowBack,
@@ -98,7 +98,7 @@ export default {
 }
 
 .mirrored {
-    transform: scaleX(-1);  /* Отзеркаливает изображение по горизонтали */
+    transform: scaleX(-1);  
 }
 
 </style>

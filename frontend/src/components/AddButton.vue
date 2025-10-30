@@ -1,9 +1,8 @@
 
 <template>
-  <div class="AddButton">
-    <!-- Основная разметка компонента -->
-     <button @click="handleClick">+</button>
-  </div>
+    <div class="AddButton">
+        <button @click="handleClick">+</button>
+    </div>
 </template>
 
 

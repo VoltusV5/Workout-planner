@@ -1,7 +1,6 @@
 
 <template>
     <div class="Arrow_Back">
-    <!-- Основная разметка компонента -->
         <button class="Arrow_Back_btn" @click="handleClick">
             <img src="../assets/make_training/Arrow.png">
         </button>
@@ -11,7 +10,7 @@
 
 <script>
 export default {
-  name: 'ArrowBack', // Название компонента
+    name: 'ArrowBack',
 
     props: {
         action: {
@@ -22,7 +21,6 @@ export default {
 
     data() {
     return {
-      // Локальное состояние компонента
     };
     },
 

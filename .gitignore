@@ -2,8 +2,7 @@
 #Backend
 #-----------------------
 venv/
-
-
+db.sqlite3
 
 
 
@@ -14,12 +13,13 @@ venv/
 .DS_Store
 node_modules
 /dist
-
+dist/
 
 # local env files
 .env
 .env.local
 .env.*.local
+.env.development
 
 # Log files
 npm-debug.log*
