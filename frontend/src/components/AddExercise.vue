@@ -1,98 +1,159 @@
-
 <template>
-    <div>
-        <div class="modal-overlay" @click="hideModal"></div>
-        
-        <div class="AddExercise">
-            <div class="header_training_page">
-                <ArrowBack action="closeModal" @close="hideModal" />
-                <h1>Добавить упражнение</h1>
-                <ApplyButton />
-            </div>
-            <input class="header_training_page_ClassicInput" type="text" placeholder="Введите название упражнения">
-            <input class="header_training_page_VideoInput" type="text" placeholder="Загрузите видео">
-            <input class="header_training_page_ClassicInput" type="text" placeholder="Введите кол-во секунд / кол-во повторений">
-            <input class="header_training_page_ClassicInput" type="text" placeholder="Введите описание">
+  <div class="modal-overlay" @click="$emit('close')">
+    <div class="modal" @click.stop>
+      <h2>{{ exercise ? 'Редактировать' : 'Добавить' }} упражнение</h2>
+      <form @submit.prevent="submit">
+        <input v-model="form.name" placeholder="Название" required />
+        <textarea v-model="form.description" placeholder="Описание" rows="3"></textarea>
+        <input type="number" v-model.number="form.duration" placeholder="Длительность (сек)" required />
+        <input type="number" v-model.number="form.repetitions" placeholder="Повторения" required />
+
+        <input type="file" @change="onFileChange" accept="video/mp4" />
+        <small v-if="form.video_file && typeof form.video_file === 'object'">
+          Новый: {{ form.video_file.name }}
+        </small>
+        <small v-else-if="exercise?.video_file">
+          Текущее: видео загружено
+        </small>
+
+        <div class="modal-actions">
+          <button type="button" @click="$emit('close')">Отмена</button>
+          <button type="submit" :disabled="isSubmitting">
+            {{ isSubmitting ? 'Сохранение...' : 'Сохранить' }}
+          </button>
         </div>
+      </form>
     </div>
+  </div>
 </template>
 
-
 <script>
-import ApplyButton from './ApplyButton.vue';
-import ArrowBack from './ArrowBack.vue';
-
 export default {
-    name: 'AddExercise',
-    components: {
-        ArrowBack,
-        ApplyButton
-    },
-    methods: {
-        hideModal() {
-        this.$emit('close');
+  props: ['exercise'],
+  emits: ['close', 'save'],
+  data() {
+    return {
+      form: {
+        name: '',
+        description: '',
+        duration: 30,
+        repetitions: 10,
+        video_file: null
+      },
+      isSubmitting: false
+    }
+  },
+  watch: {
+    exercise: {
+      immediate: true,
+      handler(val) {
+        if (val) {
+          this.form = {
+            name: val.name || '',
+            description: val.description || '',
+            duration: val.duration || 30,
+            repetitions: val.repetitions || 10,
+            video_file: null  // Новый файл, если нужно заменить
+          }
+        } else {
+          this.resetForm()
         }
+      }
+    }
+  },
+  methods: {
+    resetForm() {
+      this.form = {
+        name: '',
+        description: '',
+        duration: 30,
+        repetitions: 10,
+        video_file: null
+      }
     },
-};
+    onFileChange(e) {
+      const file = e.target.files[0]
+      if (file) {
+        this.form.video_file = file
+      }
+    },
+    async submit() {
+      if (this.isSubmitting) return
+      this.isSubmitting = true
+
+      const formData = new FormData()
+      formData.append('name', this.form.name)
+      formData.append('description', this.form.description)
+      formData.append('duration', this.form.duration)
+      formData.append('repetitions', this.form.repetitions)
+      if (this.form.video_file) {
+        formData.append('video_file', this.form.video_file)
+      }
+
+      this.$emit('save', formData)
+      // Не сбрасываем форму здесь — ждём успешного ответа
+    },
+    // Вызывается родителем после успешного сохранения
+    resetAfterSave() {
+      this.isSubmitting = false
+      this.resetForm()
+    }
+  }
+}
 </script>
 
 <style scoped>
-
-.header_training_page {
-    width: 690px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 0 0 20px 0;
-}
-
 .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 999;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
-
-.AddExercise {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -38%);
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 900px;
-    height: 870px;
-    background-color: #7C4DFF;
-    border-radius: 48px 48px 0px 0px;
-    z-index: 1000;
+.modal {
+  background: #1a1a1a;
+  padding: 24px;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 500px;
+  color: white;
 }
-
-.header_training_page h1 {
-    font-size: 40px;
-    color: #fff;
+input, textarea {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border-radius: 8px;
+  border: none;
+  background: #333;
+  color: white;
 }
-
-.header_training_page_ClassicInput {
-    height: 81px;
-    width: 690px;
+small {
+  display: block;
+  color: #aaa;
+  margin: 4px 0 12px;
+  font-size: 14px;
 }
-
-.header_training_page_VideoInput {
-    height: 418px;
-    width: 690px;
+.modal-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
 }
-
-input {
-    border-radius: 24px;
-    margin-bottom: 15px;
-    font-size: 30px;
-    padding-left: 30px;
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
 }
-
+button[type="submit"] {
+  background: #7C4DFF;
+  color: white;
+}
+button:disabled {
+  background: #555;
+  cursor: not-allowed;
+}
 </style>

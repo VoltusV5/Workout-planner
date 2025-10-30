@@ -1,64 +1,72 @@
 <template>
-    <div class="Your_Training">
-        <p>Тренировка №1</p>
-        <draggable
-        v-show="true"
-        :list="YourTraining"
-        group="exercises"
-        @start="startDrag"
-        @end="endDrag"
-        class="Your_Training-ExerciseCards_Container"
-        @update:list="updateYourTraining"
-        >
-        <template v-if="!YourTraining || YourTraining.length === 0" #header>
-            <h1 class="Container_empty_alertInfo_ExerciseCards_Container">
-            Перетащите сюда упражнения
-            </h1>
-        </template>
-        <template v-slot:item="{ element }">
-            <ExerciseCard :key="element.id" :exercise="element" />
-        </template>
-        </draggable>
-    </div>
+  <div class="your-training">
+    <h2>Ваша тренировка</h2>
+
+    <draggable
+      :list="localExercises"
+      group="exercises"
+      @start="$emit('update:drag', true)"
+      @end="$emit('update:drag', false)"
+      @update="updateLocalExercises"
+    >
+      <!-- ОБЯЗАТЕЛЬНЫЙ СЛОТ #item -->
+      <template #item="{ element }">
+        <ExerciseCard
+          :exercise="element"
+          @delete="removeExercise(element.id)"
+        />
+      </template>
+
+      <!-- Пустое состояние -->
+      <template #header>
+        <p v-if="localExercises.length === 0" class="empty">
+          Перетащите упражнения сюда
+        </p>
+      </template>
+    </draggable>
+  </div>
 </template>
 
 <script>
-import ExerciseCard from '../components/ExerciseCard.vue';
-import draggable from 'vuedraggable';
+import draggable from 'vuedraggable'
+import ExerciseCard from './ExerciseCard.vue'
 
 export default {
-    name: 'YourTraining',
-    components: {
-        ExerciseCard,
-        draggable,
+  components: { draggable, ExerciseCard },
+  props: {
+    YourTraining: {
+      type: Array,
+      default: () => []
+    }
+  },
+  emits: ['update:YourTraining', 'update:drag'],
+
+  data() {
+    return {
+      localExercises: []
+    }
+  },
+
+  watch: {
+    YourTraining: {
+      immediate: true,
+      handler(newVal) {
+        this.localExercises = [...newVal]
+      }
+    }
+  },
+
+  methods: {
+    updateLocalExercises() {
+      this.$emit('update:YourTraining', this.localExercises)
     },
-    props: {
-        YourTraining: {
-        type: Array,
-        required: true,
-        default: () => [],
-        },
-        showModal: {
-        type: Function,
-        required: true,
-        },
-        drag: {
-        type: Boolean,
-        required: true,
-        },
-    },
-    methods: {
-        startDrag() {
-        this.$emit('update:drag', true);
-        },
-        endDrag() {
-        this.$emit('update:drag', false);
-        },
-        updateYourTraining(newYourTraining) {
-        this.$emit('update:YourTraining', newYourTraining);
-        },
-    },
-};
+
+    removeExercise(id) {
+      this.localExercises = this.localExercises.filter(ex => ex.id !== id)
+      this.$emit('update:YourTraining', this.localExercises)
+    }
+  }
+}
 </script>
 
 <style scoped>

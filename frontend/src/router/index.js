@@ -4,6 +4,7 @@ import AuthService from '@/services/AuthService'
 const isDevMode = process.env.VUE_APP_DEV_MODE === 'true'
 
 const routes = [
+  // === ПУБЛИЧНЫЕ ===
     {
         path: '/login',
         name: 'Login',
@@ -15,7 +16,7 @@ const routes = [
         component: () => import('@/views/RegisterPage.vue')
     },
 
-    // === ЗАЩИЩЁННЫЕ РОУТЫ ===
+    // === ЗАЩИЩЁННЫЕ ===
     {
         path: '/',
         name: 'Home',
@@ -29,21 +30,9 @@ const routes = [
         meta: { requiresAuth: true }
     },
     {
-        path: '/make_training',
-        name: 'MakeTraining',
-        component: () => import('@/views/MakeTraining.vue'),
-        meta: { requiresAuth: true }
-    },
-    {
         path: '/choose_training',
         name: 'ChooseTraining',
         component: () => import('@/views/ChooseTraining.vue'),
-        meta: { requiresAuth: true }
-    },
-    {
-        path: '/edit_training',
-        name: 'EditTraining',
-        component: () => import('@/views/EditTraining.vue'),
         meta: { requiresAuth: true }
     },
     {
@@ -64,9 +53,42 @@ const routes = [
         component: () => import('@/views/EndExercises.vue'),
         meta: { requiresAuth: true }
     },
-    ]
 
-    const router = createRouter({
+    // === УНИВЕРСАЛЬНЫЙ РЕДАКТОР ТРЕНИРОВОК ===
+    {
+        path: '/training/:id?/edit',
+        name: 'TrainingEditor',
+        component: () => import('@/views/TrainingEditor.vue'),
+        meta: { requiresAuth: true }
+    },
+
+    // === РЕДИРЕКТЫ СО СТАРЫХ URL ===
+    {
+        path: '/make_training',
+        redirect: '/training/edit'
+    },
+    {
+        path: '/edit_training',
+        redirect: to => {
+        const id = to.query.id || ''
+        return `/training/${id}/edit`
+        }
+    },
+    {
+    path: '/doing_exercises/:workoutId',
+    name: 'DoingExercises',
+    component: () => import('@/views/DoingExercises.vue'),
+    meta: { requiresAuth: true }
+    },
+    {
+    path: '/rest/:workoutId',
+    name: 'RestExercises',
+    component: () => import('@/views/RestExercises.vue'),
+    meta: { requiresAuth: true }
+    }
+]
+
+const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes
 })
@@ -85,7 +107,7 @@ router.beforeEach(async (to, from, next) => {
         } else {
             next({ name: 'Login', query: { redirect: to.fullPath } })
         }
-        } catch {
+        } catch (error) {
         next({ name: 'Login' })
         }
     } else {

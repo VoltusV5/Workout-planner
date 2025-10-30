@@ -1,95 +1,42 @@
-
 <template>
-    <div class="doing_user_exercises">
-        <div class="header">
-            <ProgressBar />
-            <div class="left">
-                <ArrowBack />
-            </div>
-        </div>
-        
-        <div class="info">
-            <h2>Осталось</h2>
-            <h1>00:30</h1>
-        </div>
-
-        <div class="buttons">
-            <button class="Increase_rest">+20s</button>
-            <button class="Skip_rest">Пропустить</button>
-        </div>
+    <div class="rest">
+        <h1>Отдых</h1>
+        <div class="timer">{{ formatTime(remaining) }}</div>
+        <button @click="continueWorkout" class="btn-continue">Продолжить</button>
     </div>
 </template>
 
 <script>
-import ProgressBar from '../components/ProgressBar.vue'
-import ArrowBack from '../components/ArrowBack.vue'
-
 export default {
-    name: 'DoingExercises', 
-    components: {
-        ProgressBar,
-        ArrowBack,
+    data() {
+        return { remaining: 30, interval: null }
     },
-        
-};
+    mounted() {
+        this.interval = setInterval(() => {
+        if (this.remaining > 0) this.remaining--
+        else this.continueWorkout()
+        }, 1000)
+    },
+    beforeUnmount() {
+        clearInterval(this.interval)
+    },
+    methods: {
+        continueWorkout() {
+        clearInterval(this.interval)
+        this.$router.push({
+            name: 'DoingExercises',
+            params: { workoutId: this.$route.params.workoutId }
+        })
+        },
+        formatTime(s) {
+        return `${Math.floor(s/60)}:${(s%60).toString().padStart(2,'0')}`
+        }
+    }
+}
 </script>
 
 <style scoped>
-
-
-.left {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 16px;
-    padding-left: 70px;
-}
-
-
-
-.info {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.info h2 {
-    font-size: 100px;
-    color: #fff;
-    margin: 20px;
-}
-
-.info h1 {
-    font-size: 130px;
-    color: #fff;
-    margin: 0px;
-}
-
-
-.buttons {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 250px;
-}
-
-.Increase_rest {
-    background-color: #8C8C8C;
-    color: #fff;
-    width: 400px;
-    height: 150px;
-    border-radius: 48px;
-    font-size: 60px;
-}
-
-.Skip_rest {
-    background-color: #7C4DFF;
-    color: #fff;
-    width: 400px;
-    height: 150px;
-    border-radius: 48px;
-    font-size: 60px;
-}
-
+.rest { text-align: center; padding: 60px; color: white; }
+.timer { font-size: 72px; margin: 40px; }
+.btn-continue { padding: 16px 32px; background: #4CAF50; color: white; border: none; border-radius: 16px; font-size: 20px; }
 </style>

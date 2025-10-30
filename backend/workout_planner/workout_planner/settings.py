@@ -5,12 +5,21 @@ import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# === МЕДИА ===
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 SECRET_KEY = 'django-insecure-6=0x^cp9t44n%t65r#=kt^xy6_r-u@)qg#nyf1pucrhd8whxjk'
 
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+# Для обработки файлов
+FILE_UPLOAD_HANDLERS = [
+    'django.core.files.uploadhandler.MemoryFileUploadHandler',
+    'django.core.files.uploadhandler.TemporaryFileUploadHandler',
+]
 
 
 INSTALLED_APPS = [
@@ -42,7 +51,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'DEFAULT_PAGINATION_CLASS': None,
     'PAGE_SIZE': 10,  # Количество объектов на странице
 }
 
@@ -121,3 +130,5 @@ STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+

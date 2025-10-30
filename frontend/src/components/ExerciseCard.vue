@@ -1,67 +1,124 @@
-
+<!-- frontend/src/components/ExerciseCard.vue -->
 <template>
-    <div class="ExerciseCard">
-            <h3>{{ exercise.name }}</h3>
-            <img class="ExerciseCard_image" :src="exercise.image" alt="Exercise Image">
-            <h5>{{ exercise.time }} сек</h5>
-            <h6>x{{ exercise.reps }} на каждую сторону</h6>
-    </div>
-</template>
+  <div class="exercise-card">
+    <!-- Заголовок -->
+    <h3 class="title">{{ exercise.name }}</h3>
+    <p class="description">{{ exercise.description || 'Нет описания' }}</p>
 
+    <!-- Видео -->
+    <video
+      v-if="exercise.video_file"
+      :src="exercise.video_file"
+      muted
+      loop
+      autoplay
+      playsinline
+      class="video"
+    ></video>
+
+    <!-- Мета -->
+    <div class="meta">
+      <span>Длительность: {{ exercise.duration }} сек</span>
+      <span>Повторения: {{ exercise.repetitions }}</span>
+    </div>
+
+    <!-- Кнопки -->
+    <div class="actions" v-if="$parent.$parent.showActions">
+      <button @click="$emit('edit', exercise)" class="btn edit">Редактировать</button>
+      <button @click="$emit('delete', exercise.id)" class="btn delete">Удалить</button>
+    </div>
+  </div>
+</template>
 
 <script>
 export default {
-    name: 'ExerciseCard', 
-
-    props: {
-        exercise: {
-            type: Object,
-            required: true,
-        }
-    },
-
-    data() {
-        return {
-        };
-    },
-
-    methods: {
-    },
-};
+  name: 'ExerciseCard',
+  props: {
+    exercise: {
+      type: Object,
+      required: true
+    }
+  }
+}
 </script>
 
 <style scoped>
-
-
-
-.ExerciseCard {
-    background-color: #D9D9D9;
-    width: 256px;
-    height: 256px;
-    border-radius: 48px;
+/* === КАРТОЧКА === */
+.exercise-card {
+  background: #2c2c2c;
+  border-radius: 16px;
+  padding: 16px;
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  width: 280px;           /* ФИКСИРОВАННАЯ ШИРИНА */
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease;
 }
 
-h3 {
-    padding-top: 15px;
-    padding-bottom: 10px;
-    margin: 0px;
+.exercise-card:hover {
+  transform: translateY(-4px);
 }
 
-h5 {
-    padding: 10px;
-    margin: 0px;
-    font-size: 30px
+/* === ТЕКСТ === */
+.title {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 600;
 }
 
-h6 {
-    padding-bottom: 10px;
-    margin: 0px;
-    font-size: 15px
+.description {
+  margin: 0 0 12px;
+  font-size: 14px;
+  color: #ccc;
+  flex-grow: 1;
 }
 
-.ExerciseCard_image {
-    width: 188px;
-    height: 118px;
+/* === ВИДЕО === */
+.video {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin: 8px 0;
+  background: #000;
 }
 
+/* === МЕТА === */
+.meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #7C4DFF;
+  margin: 8px 0;
+}
+
+/* === КНОПКИ === */
+.actions {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.btn {
+  flex: 1;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn:hover { opacity: 0.9; }
+
+.edit { background: #7C4DFF; color: white; }
+.delete { background: #f44336; color: white; }
+
+/* === АДАПТИВНОСТЬ === */
+@media (max-width: 768px) {
+  .exercise-card { width: 100%; max-width: 300px; }
+}
 </style>

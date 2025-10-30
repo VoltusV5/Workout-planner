@@ -1,142 +1,143 @@
-
+<!-- frontend/src/views/ChooseTraining.vue -->
 <template>
-    <div class="choose_page">
-        <div class="header_choose_page">
-            <ArrowBack action="goHome" />
-            <h1>Выбор тренировки</h1>
+    <div class="choose-training">
+        <div class="header">
+        <ArrowBack action="goHome" />
+        <h1>Мои тренировки</h1>
+        <router-link to="/training/edit">
+            <AddButton />
+        </router-link>
         </div>
-        <div class="user_trainings_container">
-            <div class="user_trainings">
-                <router-link to='/doing_exercises' class="no-underline">
-                    <YourTraining class="YourTraining"
-                    :YourTraining="trainingExercises" 
-                    @update:YourTraining="updateYourTraining"
-                    @update:drag="updateDrag"
-                    :showModal="showModal" 
-                    :drag="drag" 
-                    />
-                </router-link>
-                <router-link to='/edit_training' class="no-underline">
-                    <EditButton />
-                </router-link>
+
+        <div class="workouts-list">
+        <div v-if="loading" class="loading">Загрузка...</div>
+        <div v-else-if="workouts.length === 0" class="empty">
+            <p>У вас нет тренировок</p>
+            <router-link to="/training/edit">
+            <button class="btn-create">Создать первую</button>
+            </router-link>
+        </div>
+        <div v-else v-for="workout in workouts" :key="workout.id" class="workout-card">
+            <h3>{{ workout.name }}</h3>
+            <p>{{ workout.exercises.length }} упражнений</p>
+            <div class="actions">
+            <button @click="startWorkout(workout)" class="btn-start">Начать</button>
+            <router-link :to="`/training/${workout.id}/edit`">
+                <button class="btn-edit">Редактировать</button>
+            </router-link>
+            <button @click="deleteWorkout(workout.id)" class="btn-delete">Удалить</button>
             </div>
-            <div class="user_trainings">
-                <router-link to='/doing_exercises' class="no-underline">
-                    <YourTraining class="YourTraining"
-                    :YourTraining="trainingExercises" 
-                    @update:YourTraining="updateYourTraining"
-                    @update:drag="updateDrag"
-                    :showModal="showModal" 
-                    :drag="drag" 
-                    />
-                </router-link>
-                <router-link to='/edit_training' class="no-underline">
-                    <EditButton />
-                </router-link>
-            </div>
-            <div class="user_trainings">
-                <router-link to='/doing_exercises' class="no-underline">
-                    <YourTraining class="YourTraining"
-                    :YourTraining="trainingExercises" 
-                    @update:YourTraining="updateYourTraining"
-                    @update:drag="updateDrag"
-                    :showModal="showModal" 
-                    :drag="drag" 
-                    />
-                </router-link>
-                <router-link to='/edit_training' class="no-underline">
-                    <EditButton />
-                </router-link>
-            </div>
-            <div class="user_trainings">
-                <router-link to='/doing_exercises' class="no-underline">
-                    <YourTraining class="YourTraining"
-                    :YourTraining="trainingExercises" 
-                    @update:YourTraining="updateYourTraining"
-                    @update:drag="updateDrag"
-                    :showModal="showModal" 
-                    :drag="drag" 
-                    />
-                </router-link>
-                <router-link to='/edit_training' class="no-underline">
-                    <EditButton />
-                </router-link>
-            </div>
+        </div>
         </div>
     </div>
 </template>
 
 <script>
-import { trainingExercises } from '@/assets/data/trainingExercises'
-
-import ArrowBack from '../components/ArrowBack.vue'
-import YourTraining from '../components/YourTraining.vue'
-import EditButton from '../components/EditButton.vue'
+import ArrowBack from '@/components/ArrowBack.vue'
+import AddButton from '@/components/AddButton.vue'
+import { getWorkouts, deleteWorkout } from '@/services/api'
 
 export default {
-    name: 'ChooseTraining',
-    components: {
-        ArrowBack,
-        YourTraining,
-        EditButton,
-    },
-
-
+    components: { ArrowBack, AddButton },
     data() {
         return {
-            trainingExercises: Array.isArray(trainingExercises) ? trainingExercises : [],
-            drag: false,
-        };
-    
-    },
-    methods: {
-
-        updateYourTraining(newYourTraining) {
-        this.trainingExercises = Array.isArray(newYourTraining) ? newYourTraining : [];
-        },
-        updateDrag(newDragStatus) {
-        this.drag = newDragStatus;
-        },
-        showModal() {
-            console.log('Modal should appear');
+        workouts: [],
+        loading: true
         }
     },
-};
-
+    async mounted() {
+        await this.loadWorkouts()
+    },
+    methods: {
+        async loadWorkouts() {
+        this.loading = true
+        try {
+            const response = await getWorkouts()
+            this.workouts = response.data
+        } catch (error) {
+            console.error('Ошибка загрузки тренировок:', error)
+        } finally {
+            this.loading = false
+        }
+        },
+        startWorkout(workout) {
+        this.$router.push({
+            name: 'DoingExercises',
+            params: { workoutId: workout.id }
+        })
+        },
+        async deleteWorkout(id) {
+        if (confirm('Удалить тренировку?')) {
+            try {
+            await deleteWorkout(id)
+            this.workouts = this.workouts.filter(w => w.id !== id)
+            } catch (error) {
+            alert('Не удалось удалить')
+            }
+        }
+        }
+    }
+}
 </script>
 
 <style scoped>
-
-.user_trainings_container {
-    display: flex;
-    justify-content: center;
-    overflow-y: auto;
-    
+.choose-training {
+    padding: 20px;
 }
-
-.YourTraining {
-    height: 800px;
-}
-
-.header_choose_page {
-    margin: 16px;
+.header {
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
 }
-
-.header_choose_page h1  {
-    font-size: 120px;
-    color: #fff;
+.workouts-list {
+    display: grid;
+    gap: 20px;
+}
+.workout-card {
+    background: #2c2c2c;
+    padding: 20px;
+    border-radius: 16px;
+    color: white;
+}
+.actions {
+    margin-top: 12px;
+    display: flex;
+    gap: 10px;
+}
+.btn-start {
+    background: #4CAF50;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+}
+.btn-edit {
+    background: #7C4DFF;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+}
+.btn-delete {
+    background: #f44336;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+}
+.empty {
     text-align: center;
-    margin: 0px;
-    flex-grow: 1;
+    color: #aaa;
+    padding: 40px;
 }
-
-.no-underline {
-    text-decoration: none;
+.btn-create {
+    background: #7C4DFF;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 12px;
+    margin-top: 16px;
+    font-size: 18px;
 }
-
-
-
 </style>
